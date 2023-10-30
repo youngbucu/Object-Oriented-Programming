@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OptionsParser {
-    public static MoveDirection[] parse(String[] args) {
+    public static List<MoveDirection> parse(String[] args) {
         List<MoveDirection> directions = new ArrayList<>();
         for (String arg : args) {
             switch (arg) {
@@ -16,6 +16,6 @@ public class OptionsParser {
                 case "l" -> directions.add(MoveDirection.LEFT);
             }
         }
-        return directions.toArray(new MoveDirection[0]);
+        return directions;
     }
 }
