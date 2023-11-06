@@ -12,9 +12,9 @@ public class Simulation {
     private final List<Animal> animals = new ArrayList<>();
     private final List<MoveDirection> directions;
 
-    private final WorldMap worldMap;
+    private final WorldMap<Animal, Vector2d> worldMap;
 
-    public Simulation(List<MoveDirection> directions, List<Vector2d> initialPositions, WorldMap worldMap) {
+    public Simulation(List<MoveDirection> directions, List<Vector2d> initialPositions, WorldMap<Animal, Vector2d> worldMap) {
         this.directions = directions;
         this.worldMap = worldMap;
 
@@ -40,4 +40,3 @@ public class Simulation {
         return animals;
     }
 }
-
