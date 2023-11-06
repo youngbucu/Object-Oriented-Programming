@@ -19,7 +19,7 @@ public class Animal {
     // Metoda zwracająca reprezentację łańcuchową zwierzęcia
     @Override
     public String toString() {
-        return "Position: " + position + ", Direction: " + direction;
+        return direction.toString();
     }
 
     // Metoda sprawdzająca, czy zwierzę znajduje się na danej pozycji
@@ -31,7 +31,30 @@ public class Animal {
         this.position = position;
     }
 
-    public void move(MoveDirection direction) {
+//    public void move(MoveDirection direction) {
+//        switch (direction) {
+//            case RIGHT:
+//                this.direction = this.direction.next();
+//                break;
+//            case LEFT:
+//                this.direction = this.direction.previous();
+//                break;
+//            case FORWARD:
+//                Vector2d newPosition1 = this.position.add(this.direction.toUnitVector());
+//                if (isValidPosition(newPosition1)) {
+//                    this.position = newPosition1;
+//                }
+//                break;
+//            case BACKWARD:
+//                Vector2d newPosition2 = this.position.subtract(this.direction.toUnitVector());
+//                if (isValidPosition(newPosition2)) {
+//                    this.position = newPosition2;
+//                }
+//                break;
+//        }
+//    }
+
+    public void move(MoveDirection direction, MoveValidator moveValidator) {
         switch (direction) {
             case RIGHT:
                 this.direction = this.direction.next();
@@ -41,18 +64,19 @@ public class Animal {
                 break;
             case FORWARD:
                 Vector2d newPosition1 = this.position.add(this.direction.toUnitVector());
-                if (isValidPosition(newPosition1)) {
+                if (moveValidator.canMoveTo(newPosition1)) {
                     this.position = newPosition1;
                 }
                 break;
             case BACKWARD:
                 Vector2d newPosition2 = this.position.subtract(this.direction.toUnitVector());
-                if (isValidPosition(newPosition2)) {
+                if (moveValidator.canMoveTo(newPosition2)) {
                     this.position = newPosition2;
                 }
                 break;
         }
     }
+
 
     public boolean isValidPosition(Vector2d position) {
         return position.follows(new Vector2d(4, 4)) && position.precedes(new Vector2d(0, 0));
