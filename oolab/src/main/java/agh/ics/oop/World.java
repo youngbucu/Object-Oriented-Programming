@@ -1,24 +1,24 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.RectangularMap;
-import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.*;
 
 import java.util.List;
 
 public class World {
     public static void main(String[] args) {
-        System.out.println("Start");
+        GrassField grassField = new GrassField(10);
 
-        List<MoveDirection> directions = OptionsParser.parse(args);
-        List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
+        Animal animal = new Animal(new Vector2d(2, 2));
+        grassField.place(animal);
 
-        RectangularMap rectangularMap = new RectangularMap(10, 10);
+        String[] moves = {"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f"};
+        List<MoveDirection> directions = OptionsParser.parse(moves);
 
-        Simulation simulation = new Simulation(directions, positions, rectangularMap);
-        simulation.run();
-
-        System.out.println("Stop");
+        for (MoveDirection direction : directions) {
+            grassField.move(animal, direction);
+            System.out.println(animal);
+            System.out.println(grassField);
+        }
     }
 
     public static void run(List<MoveDirection> directions) {

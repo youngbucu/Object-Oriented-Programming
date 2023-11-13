@@ -1,28 +1,23 @@
 package agh.ics.oop.model;
 
-public class Animal {
+public class Animal implements WorldElement {
     private MapDirection direction;
     private Vector2d position;
-
-    // Domyślny konstruktor
     public Animal() {
         this.direction = MapDirection.NORTH;
         this.position = new Vector2d(2, 2);
     }
 
-    // Konstruktor przyjmujący i ustawiający pozycję podawaną z zewnątrz
     public Animal(Vector2d initialPosition) {
         this.direction = MapDirection.NORTH;
         this.position = initialPosition;
     }
 
-    // Metoda zwracająca reprezentację łańcuchową zwierzęcia
     @Override
     public String toString() {
         return direction.toString();
     }
 
-    // Metoda sprawdzająca, czy zwierzę znajduje się na danej pozycji
     public boolean isAt(Vector2d position) {
         return this.position.equals(position);
     }
