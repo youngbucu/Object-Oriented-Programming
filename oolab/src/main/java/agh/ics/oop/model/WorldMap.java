@@ -8,7 +8,7 @@ package agh.ics.oop.model;
  * @param <T> The type of objects that can be placed on the map.
  * @param <P> The type of position on the map.
  */
-public interface WorldMap<T, P> extends MoveValidator<P> {
+public interface WorldMap<T extends WorldElement, P> extends MoveValidator<P> {
 
     /**
      * Place an object on the map.
@@ -40,5 +40,5 @@ public interface WorldMap<T, P> extends MoveValidator<P> {
      * @param position The position of the object.
      * @return object or null if the position is not occupied.
      */
-    T objectAt(P position);
+    WorldElement objectAt(P position);
 }
