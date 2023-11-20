@@ -7,12 +7,14 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class OptionsParserTest {
     @Test
-    public void optionsParserVerify() {
-        String[] testArray = {"f", "l", "gruby", "r", "b", "gruby", "b"};
-        List<MoveDirection> expectedList = Arrays.asList(MoveDirection.FORWARD, MoveDirection.LEFT, MoveDirection.RIGHT, MoveDirection.BACKWARD, MoveDirection.BACKWARD);
-        Assertions.assertEquals(expectedList, OptionsParser.parse(testArray));
+    public void testParseInvalidArgument() {
+        String[] invalidArgs = {"f", "x", "r"};
+
+        assertThrows(IllegalArgumentException.class, () -> OptionsParser.parse(invalidArgs));
     }
 }
 
