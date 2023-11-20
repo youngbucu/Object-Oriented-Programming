@@ -1,19 +1,41 @@
 package agh.ics.oop.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import agh.ics.oop.model.util.MapVisualizer;
 
 public abstract class AbstractWorldMap implements WorldMap<Animal, Vector2d> {
     public Map<Vector2d, Animal> animals = new HashMap<>();
 
+    private final List<MapChangeListener> observers = new ArrayList<>();
+
+    private final MapVisualizer mapVisualizer = new MapVisualizer(this);
+
+    public void addObserver(MapChangeListener observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(MapChangeListener observer) {
+        observers.remove(observer);
+    }
+
+    protected void mapChanged(String message){
+        for (MapChangeListener observer: observers){
+            observer.mapChanged(this, message);
+        }
+    }
+
     @Override
-    public boolean place(Animal animal) {
+    public void place(Animal animal) throws PositionAlreadyOccupiedException {
         Vector2d position = animal.getPosition();
         if (!isOccupied(position)) {
             animals.put(position, animal);
-            return true;
+            mapChanged("Animal placed at " + position);
+        } else {
+            throw new PositionAlreadyOccupiedException(position);
         }
-        return false;
     }
 
     @Override
@@ -25,6 +47,7 @@ public abstract class AbstractWorldMap implements WorldMap<Animal, Vector2d> {
         if (!oldPosition.equals(newPosition) && canMoveTo(newPosition)) {
             animals.remove(oldPosition);
             animals.put(newPosition, animal);
+            mapChanged("Animal moved from " + oldPosition + " to " + newPosition);
         }
     }
 
@@ -40,4 +63,13 @@ public abstract class AbstractWorldMap implements WorldMap<Animal, Vector2d> {
 
     @Override
     public abstract boolean canMoveTo(Vector2d position);
+
+    @Override
+    public abstract Boundary getCurrentBounds();
+
+    @Override
+    public String toString() {
+        Boundary bounds = getCurrentBounds();
+        return mapVisualizer.draw(bounds.lowerLeft(), bounds.upperRight());
+    }
 }
