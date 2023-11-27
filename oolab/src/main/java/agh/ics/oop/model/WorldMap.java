@@ -16,7 +16,7 @@ public interface WorldMap<T extends WorldElement, P> extends MoveValidator<P> {
      * @param object The object to place on the map.
      * @return True if the object was placed. The object cannot be placed if the move is not valid.
      */
-    boolean place(T object);
+    void place(T object) throws PositionAlreadyOccupiedException;
 
     /**
      * Moves an object (if it is present on the map) according to specified direction.
@@ -41,4 +41,9 @@ public interface WorldMap<T extends WorldElement, P> extends MoveValidator<P> {
      * @return object or null if the position is not occupied.
      */
     WorldElement objectAt(P position);
+
+    /**
+     * Return map boundaries as Boundary
+     */
+    Boundary getCurrentBounds();
 }

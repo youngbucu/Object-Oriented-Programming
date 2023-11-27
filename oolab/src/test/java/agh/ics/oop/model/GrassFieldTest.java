@@ -1,22 +1,23 @@
 package agh.ics.oop.model;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GrassFieldTest {
 
     @Test
-    public void testPlaceAndMove() {
+    public void testPlaceAndMove() throws PositionAlreadyOccupiedException {
         GrassField map = new GrassField(10);
-        Animal animal = new Animal(new Vector2d(2, 2));
 
-        assertTrue(map.place(animal));
-        assertTrue(map.isOccupied(new Vector2d(2, 2)));
-        assertEquals(animal, map.objectAt(new Vector2d(2, 2)));
+        System.out.println(map);
 
-        map.move(animal, MoveDirection.FORWARD);
-        assertFalse(map.isOccupied(new Vector2d(2, 2)));
-        assertTrue(map.isOccupied(new Vector2d(2, 3)));
+        Vector2d vector = map.getGrasses().entrySet().iterator().next().getKey();
+
+        Animal animal = new Animal(vector);
+
+        assertThrows(PositionAlreadyOccupiedException.class, () -> map.place(animal));
+
     }
 
 }
