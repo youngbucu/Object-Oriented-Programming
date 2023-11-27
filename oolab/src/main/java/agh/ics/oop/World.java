@@ -15,7 +15,9 @@ public class World {
             List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
 
             for (int i = 0; i < 1000; i++) {
-                WorldMap<Animal, Vector2d> map = new RectangularMap(10, 10);
+                RectangularMap map = new RectangularMap(10, 10);
+                ConsoleMapDisplay observer = new ConsoleMapDisplay();
+                map.addObserver(observer);
                 simulations.add(new Simulation(directions, positions, map));
             }
 

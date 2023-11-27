@@ -19,7 +19,7 @@ public class SimulationEngine {
         executorService = Executors.newFixedThreadPool(4);
 
         for (Simulation simulation : simulations) {
-            executorService.submit(() -> simulation.run());
+            executorService.submit(simulation::run);
         }
 
         executorService.shutdown();
