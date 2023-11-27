@@ -1,5 +1,7 @@
 package agh.ics.oop.model;
 
+import java.util.UUID;
+
 /**
  * The interface responsible for interacting with the map of the world.
  * Assumes that MoveDirection class is defined.
@@ -46,4 +48,6 @@ public interface WorldMap<T extends WorldElement, P> extends MoveValidator<P> {
      * Return map boundaries as Boundary
      */
     Boundary getCurrentBounds();
+
+    UUID getId();
 }
