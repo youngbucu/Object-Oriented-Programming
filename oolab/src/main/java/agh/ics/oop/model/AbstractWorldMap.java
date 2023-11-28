@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import agh.ics.oop.model.util.MapVisualizer;
 
 public abstract class AbstractWorldMap implements WorldMap<Animal, Vector2d> {
@@ -12,6 +13,8 @@ public abstract class AbstractWorldMap implements WorldMap<Animal, Vector2d> {
     private final List<MapChangeListener> observers = new ArrayList<>();
 
     private final MapVisualizer mapVisualizer = new MapVisualizer(this);
+
+    private final UUID id = UUID.randomUUID();
 
     public void addObserver(MapChangeListener observer) {
         observers.add(observer);
@@ -71,5 +74,10 @@ public abstract class AbstractWorldMap implements WorldMap<Animal, Vector2d> {
     public String toString() {
         Boundary bounds = getCurrentBounds();
         return mapVisualizer.draw(bounds.lowerLeft(), bounds.upperRight());
+    }
+
+    @Override
+    public UUID getId() {
+        return id;
     }
 }

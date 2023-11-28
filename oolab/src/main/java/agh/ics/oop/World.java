@@ -2,30 +2,40 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class World {
     public static void main(String[] args) {
         try {
-            GrassField grassField = new GrassField(10);
-            ConsoleMapDisplay observer1 = new ConsoleMapDisplay();
-            grassField.addObserver(observer1);
-
-            Vector2d pos1 = new Vector2d(2,2);
-            Vector2d pos2 = new Vector2d(7,5);
-            Vector2d pos3 = new Vector2d(4, 4);
-
-            List<Vector2d> positions = List.of(pos1, pos2, pos3);
+            List<Simulation> simulations = new ArrayList<>();
 
             String[] moves = {"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f"};
             List<MoveDirection> directions = OptionsParser.parse(moves);
+            List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
 
-            Simulation simulation = new Simulation(directions, positions, grassField);
-            simulation.run();
+            ConsoleMapDisplay observer = new ConsoleMapDisplay();
 
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
+            for (int i = 0; i < 1000; i++) {
+                RectangularMap map = new RectangularMap(10, 10);
+                map.addObserver(observer);
+                simulations.add(new Simulation(directions, positions, map));
+            }
+
+            SimulationEngine engine = new SimulationEngine(simulations);
+//            try{
+//                engine.runAsync();
+//            }catch (InterruptedException e){System.out.println(e.getMessage());}
+
+            engine.runAsyncInThreadPool();
+
+            try {
+                engine.awaitSimulationsEnd();
+            }catch (InterruptedException e){System.out.println(e.getMessage());}
+
+            System.out.println("Wszystkie symulacje zakończone.");
+
+        } catch (IllegalArgumentException e) {System.out.println(e.getMessage());}
     }
 
 
