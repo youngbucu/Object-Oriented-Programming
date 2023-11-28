@@ -2,6 +2,7 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.Simulation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -29,9 +30,26 @@ public class SimulationEngine {
         executorService.awaitTermination(10, TimeUnit.SECONDS);
     }
 
-    public void runAsync() {
+    public void runAsync() throws InterruptedException {
+        List<Thread> threads = new ArrayList<>();
+
+        // Uruchamianie wszystkich symulacji w osobnych wątkach
         for (Simulation simulation : simulations) {
-            new Thread(simulation::run).start();
+            Thread thread = new Thread(simulation::run);
+            thread.start();
+            threads.add(thread);
+        }
+
+        // Czekanie na zakończenie każdego z wątków
+        for (Thread thread : threads) {
+            thread.join();
+        }
+    }
+
+
+    public void runSync(){
+        for (Simulation simulation : simulations) {
+            simulation.run();
         }
     }
 }
