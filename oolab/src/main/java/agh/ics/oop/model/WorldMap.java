@@ -36,6 +36,8 @@ public interface WorldMap<T extends WorldElement, P> extends MoveValidator<P> {
      */
     boolean isOccupied(P position);
 
+    void addObserver(MapChangeListener observer);
+
     /**
      * Return an object at a given position.
      *
